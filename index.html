@@ -2,53 +2,87 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Le Couple Officiel du Club</title>
+  <title>On l'accuse de tout</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
       padding: 40px;
-      text-align: center;
-    }
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     h1 {
+      text-align: center;
       color: #c62828;
     }
-    p {
-      font-size: 1.2em;
+    #form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
     }
-    .badge {
-      display: inline-block;
+    #reasons {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .reason {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .reason:last-child {
+      border-bottom: none;
+    }
+    button {
       background: #c62828;
       color: white;
+      border: none;
       padding: 10px 20px;
-      border-radius: 20px;
-      margin-top: 20px;
-      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #a91f1f;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>⭐ Le Couple Officiel du Club ⭐</h1>
-    <p>
-      On l’accuse de tout.<br>
-      On le soupçonne de tout.<br>
-      On le met dans toutes les histoires.<br><br>
-      Et pourtant… il reste toujours là, fidèle au poste.
-    </p>
-    <p>
-      Voici donc, officiellement, solennellement, et avec amour :  
-      <strong>Le mec qu’on accuse toujours de tout.</strong>
-    </p>
-    <div class="badge">Titre décerné par le Club de Boxe</div>
+
+  <h1>⭐ Le mec qu’on accuse toujours de tout ⭐</h1>
+
+  <div id="form">
+    <h2>Ajouter une nouvelle accusation</h2>
+    <p>Une raison pour laquelle c’est encore sa faute :</p>
+    <input id="input" type="text" placeholder="Ex : Le robinet cassé dans les toilettes" style="width:100%; padding:10px;">
+    <button onclick="addReason()">Ajouter</button>
   </div>
+
+  <div id="reasons">
+    <h2>Liste officielle des accusations</h2>
+
+    <div class="reason">Le robinet des toilettes cassé → c’est lui.</div>
+    <div class="reason">Les volants de badminton coincés → c’est lui.</div>
+    <div class="reason">Les gants qui puent → c’est lui.</div>
+  </div>
+
+  <script>
+    function addReason() {
+      const input = document.getElementById('input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('reasons');
+      const div = document.createElement('div');
+      div.className = 'reason';
+      div.textContent = text + " → c’est lui.";
+
+      container.appendChild(div);
+      input.value = "";
+    }
+  </script>
+
 </body>
 </html>
