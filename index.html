@@ -63,8 +63,8 @@
     const API_KEY = "YOUR_API_KEY";
 
     async function loadReasons() {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${6a9bc0bbf5f4af5e296cf22b}/latest`, {
-        headers: { "X-Master-Key": $2a$10$nKto8qXnKPTmdBG8swu8xeIrg201dmZlumfbT9vCrWY8D0YmaAHQu }
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${}/latest`, {
+        headers: { "X-Master-Key":  }
       });
       const data = await res.json();
       const reasons = data.record.reasons;
