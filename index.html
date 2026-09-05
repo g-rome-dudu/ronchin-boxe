@@ -59,13 +59,10 @@
   </div>
 
   <script>
-    const BIN_ID = "YOUR_BIN_ID";
-    const API_KEY = "YOUR_API_KEY";
+    const BIN_ID = "6a9bc64bda38895dfe3b6d7f";
 
     async function loadReasons() {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${}/latest`, {
-        headers: { "X-Master-Key":  }
-      });
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`);
       const data = await res.json();
       const reasons = data.record.reasons;
 
@@ -85,19 +82,19 @@
       const text = input.value.trim();
       if (!text) return;
 
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-        headers: { "X-Master-Key": API_KEY }
-      });
+      // Lire les données actuelles
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`);
       const data = await res.json();
       const reasons = data.record.reasons;
 
+      // Ajouter la nouvelle accusation
       reasons.push(text + " → c’est lui.");
 
+      // Écrire dans le bin public
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": API_KEY
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ reasons })
       });
