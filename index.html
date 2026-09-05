@@ -15,18 +15,12 @@
       text-align: center;
       color: #c62828;
     }
-    #form {
+    #form, #reasons {
       background: white;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-bottom: 30px;
-    }
-    #reasons {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .reason {
       padding: 10px;
@@ -55,33 +49,64 @@
 
   <div id="form">
     <h2>Ajouter une nouvelle accusation</h2>
-    <p>Une raison pour laquelle c’est encore sa faute :</p>
     <input id="input" type="text" placeholder="Ex : Le robinet cassé dans les toilettes" style="width:100%; padding:10px;">
     <button onclick="addReason()">Ajouter</button>
   </div>
 
   <div id="reasons">
     <h2>Liste officielle des accusations</h2>
-
-    <div class="reason">Le robinet des toilettes cassé → c’est lui.</div>
-    <div class="reason">Les volants de badminton coincés → c’est lui.</div>
-    <div class="reason">Les gants qui puent → c’est lui.</div>
+    <div id="list"></div>
   </div>
 
   <script>
-    function addReason() {
-      const input = document.getElementById('input');
+    const BIN_ID = "YOUR_BIN_ID";
+    const API_KEY = "YOUR_API_KEY";
+
+    async function loadReasons() {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${6a9bc0bbf5f4af5e296cf22b}/latest`, {
+        headers: { "X-Master-Key": $2a$10$nKto8qXnKPTmdBG8swu8xeIrg201dmZlumfbT9vCrWY8D0YmaAHQu }
+      });
+      const data = await res.json();
+      const reasons = data.record.reasons;
+
+      const list = document.getElementById("list");
+      list.innerHTML = "";
+
+      reasons.forEach(r => {
+        const div = document.createElement("div");
+        div.className = "reason";
+        div.textContent = r;
+        list.appendChild(div);
+      });
+    }
+
+    async function addReason() {
+      const input = document.getElementById("input");
       const text = input.value.trim();
       if (!text) return;
 
-      const container = document.getElementById('reasons');
-      const div = document.createElement('div');
-      div.className = 'reason';
-      div.textContent = text + " → c’est lui.";
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { "X-Master-Key": API_KEY }
+      });
+      const data = await res.json();
+      const reasons = data.record.reasons;
 
-      container.appendChild(div);
+      reasons.push(text + " → c’est lui.");
+
+      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": API_KEY
+        },
+        body: JSON.stringify({ reasons })
+      });
+
       input.value = "";
+      loadReasons();
     }
+
+    loadReasons();
   </script>
 
 </body>
